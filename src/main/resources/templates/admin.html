@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Panel</title>
+</head>
+
+<body>
+<h1>Панель Администратора</h1>
+<p>Все пользователи</p>
+
+<table class="table">
+
+    <tr>
+        <th>Id</th>
+        <th>Имя</th>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </tr>
+
+    <tr th:each="user : ${allUsers}">
+        <td th:text="${user.getId()}"/>
+        <td th:text="${user.getUsername()}"/>
+        <td th:text="${user.getEmail()}"/>
+        <td>
+            <div th:each="role : ${user.getRoles()}"
+                 th:text="${role.getName()}">
+            </div>
+        </td>
+        <td>
+            <form class="button4" th:action="@{/admin/edit/{id}(id=${user.getId()})}">
+                <input type="submit" value="Update">
+            </form>
+        </td>
+        <td>
+            <form class="button4" th:method="DELETE" th:action="@{/admin/delete/{id}(id=${user.getId()}) }">
+                <input type="submit" value="Delete"/>
+            </form>
+        </td>
+
+
+    </tr>
+
+</table>
+
+<br>
+<form class="button button3" th:action="@{/admin/new}" method="get">
+    <input type="submit" value="Создать пользователя"/>
+</form>
+<br>
+<form class="button button3" th:action="@{/user}">
+    <input type="submit" value="Инф. о пользователе" method="get"/>
+</form>
+<br>
+<form class="button button3" th:action="@{/logout}" method="get">
+    <input type="submit" value="Logout"/>
+</form>
+
+</body>
+</html>
