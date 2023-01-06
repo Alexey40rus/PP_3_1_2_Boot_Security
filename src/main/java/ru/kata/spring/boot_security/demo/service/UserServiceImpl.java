@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.kata.spring.boot_security.demo.entity.User;
-import ru.kata.spring.boot_security.demo.repositories.UserRepositories;
+import ru.kata.spring.boot_security.demo.repositories.UserRepository;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -16,20 +16,20 @@ import java.util.List;
 @Service
 public class UserServiceImpl implements UserService, UserDetailsService  {
 
-    private final UserRepositories userRepositories;
+    private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    public UserServiceImpl(UserRepositories userRepositories,
+    public UserServiceImpl(UserRepository userRepository,
                            @Lazy BCryptPasswordEncoder bCryptPasswordEncoder) {
-        this.userRepositories = userRepositories;
+        this.userRepository = userRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
 
     @Override
     public User findByUserName(String username) {
-        return userRepositories.findByUsername(username);
+        return userRepository.findByUsername(username);
     }
 
 
@@ -49,29 +49,33 @@ public class UserServiceImpl implements UserService, UserDetailsService  {
     public void saveUser(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.setRoles(user.getRoles());
-        userRepositories.save(user);
+        userRepository.save(user);
     }
 
     @Override
     @Transactional
     public void updateUser(User updateUser) {
-        updateUser.setPassword(bCryptPasswordEncoder.encode(updateUser.getPassword()));
-        userRepositories.save(updateUser);
+        if (updateUser.getPassword().isEmpty()) {
+            updateUser.setPassword(userRepository.findByUsername(updateUser.getUsername()).getPassword());
+        } else {
+            updateUser.setPassword(bCryptPasswordEncoder.encode(updateUser.getPassword()));
+        }
+        userRepository.save(updateUser);
     }
 
     @Override
     @Transactional
     public void deleteUser(int id) {
-        userRepositories.deleteById(id);
+        userRepository.deleteById(id);
     }
 
     @Override
     public User getUserById(int id) {
-        return userRepositories.getById(id);
+        return userRepository.getById(id);
     }
 
     @Override
     public List<User> getAllUsers() {
-        return userRepositories.findAll();
+        return userRepository.findAll();
     }
 }
