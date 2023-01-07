@@ -27,12 +27,8 @@ public class AdminController {
 
 
     @GetMapping
-    public String AllUsers(Model model, Principal principal) {
-        User userPrincipal = userService.findByUserName((principal.getName()));
-        model.addAttribute("userPrincipal", userPrincipal);
-        model.addAttribute("newUser", new User());
+    public String AllUsers(Model model) {
         model.addAttribute("allUsers", userService.getAllUsers());
-        model.addAttribute("roles", roleService.getRoleList());
         return "admin";
     }
 
@@ -51,13 +47,13 @@ public class AdminController {
 
     @GetMapping("/edit/{id}")
     public String edit(Model model, @PathVariable("id") int id) {
-        model.addAttribute("edit", userService.getUserById(id));
+        model.addAttribute("users", userService.getUserById(id));
         model.addAttribute("roles", roleService.getRoleList());
         return "edit";
     }
 
     @PatchMapping("/{id}")
-    public String update(User user, @PathVariable("id") int id) {
+    public String update(@ModelAttribute("user") User user, @PathVariable("id") int id) {
         user.setId(id);
         userService.updateUser(user);
         return "redirect:/admin";

@@ -18,7 +18,7 @@ public class UserController {
     }
     @GetMapping("/index")
     public String startController() {
-    return "/index";
+    return "index";
     }
 
     @GetMapping("/user")
