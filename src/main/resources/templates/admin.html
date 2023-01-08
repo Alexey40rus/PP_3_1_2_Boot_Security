@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Admin Panel</title>
@@ -39,19 +39,15 @@
                 <input type="submit" value="Delete"/>
             </form>
         </td>
-
-
     </tr>
-
 </table>
-
 <br>
 <form class="button button3" th:action="@{/admin/new}" method="get">
     <input type="submit" value="Создать пользователя"/>
 </form>
 <br>
 <form class="button button3" th:action="@{/user}">
-    <input type="submit" value="Инф. о пользователе" method="get"/>
+    <input type="submit" value="Инф. о пользователе" th:method="get"/>
 </form>
 <br>
 <form class="button button3" th:action="@{/logout}" method="get">

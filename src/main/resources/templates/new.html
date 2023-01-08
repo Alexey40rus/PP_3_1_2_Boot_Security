@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <title>New user</title>
@@ -7,7 +7,7 @@
 
 <body>
 <h1>Новый пользователь</h1>
-<form class="fieldForm" th:method="POST" th:action="@{/admin/new}" th:object="${user}">
+<form th:method="POST" th:action="@{/admin/new}" th:object="${user}">
   <label for="username">Имя</label>
   <input type="text" th:field="*{username}" id="username">
   <br>
@@ -19,7 +19,7 @@
   <br>
   <label for="role">Role</label>
 
-  <select th:field="*{roles}" type="text" id="role" style="height:2.6rem">
+  <select th:field="*{roles}" th:type="text" id="role">
     <option th:each="role : ${roles}" th:value="${role.getId()}" th:text="${role.getName()}"></option>
   </select>
   <br/>
