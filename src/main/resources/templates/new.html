@@ -20,10 +20,14 @@
   <label for="role">Role</label>
 
   <select th:field="*{roles}" th:type="text" id="role">
-    <option th:each="role : ${roles}" th:value="${role.getId()}" th:text="${role.getName()}"></option>
+    <option th:each="role : ${roles}"
+            th:value="${role.getId()}"
+            th:text="${role.getName()}">
+
+    </option>
   </select>
   <br/>
-  <input id="but" type="submit" value="Create">
+  <input type="submit" value="Create">
 </form>
 </body>
 </html>

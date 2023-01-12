@@ -8,7 +8,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import ru.kata.spring.boot_security.demo.service.UserServiceImpl;
 
 @Configuration
@@ -28,7 +27,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/", "/index", "/view.css").permitAll()
+                .antMatchers("/", "/index").permitAll()
                 .antMatchers("/user/**").hasAnyRole("USER", "ADMIN")
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
@@ -40,24 +39,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll();
     }
 
-    // аутентификация inMemory
-    //  @Bean
-    //  @Override
-    //  public UserDetailsService userDetailsService() {
-    //     UserDetails user =
-    //           User.withDefaultPasswordEncoder()
-    //                 .username("user")
-    //               .password("user")
-    //             .roles("USER")
-    //           .build();
-    //  UserDetails admin =
-    //        User.withDefaultPasswordEncoder()
-    //              .username("admin")
-    //            .password("user")
-    //          .roles("ADMIN", "USER")
-    //        .build();
-    // return new InMemoryUserDetailsManager(user, admin);
-    // }
 @Bean
 public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
