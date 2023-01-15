@@ -20,7 +20,6 @@
   <input type="text" th:field="*{password}" id="password">
   <br>
   <label for="role">Role</label>
-
   <select th:field="*{roles}" th:type="text" id="role">
     <option th:each="role : ${roles}"
             th:value="${{role}}"

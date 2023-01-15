@@ -14,7 +14,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
-public class UserServiceImpl implements UserService, UserDetailsService  {
+public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -55,8 +55,10 @@ public class UserServiceImpl implements UserService, UserDetailsService  {
     @Override
     @Transactional
     public void updateUser(User updateUser) {
+        if (!updateUser.getPassword().equals(userRepository.getById(updateUser.getId()).getPassword())) {
             updateUser.setPassword(bCryptPasswordEncoder.encode(updateUser.getPassword()));
-            userRepository.save(updateUser);
+        }
+        userRepository.save(updateUser);
     }
 
     @Override

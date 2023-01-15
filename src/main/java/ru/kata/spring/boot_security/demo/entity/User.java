@@ -18,7 +18,7 @@ public class User implements UserDetails {
     private int id;
     @Column(name = "username", unique = true)
     @NotEmpty(message = "имя не должен быть пустым")
-    @Size(min=4, message = "В имени должно быть не менее 4 знаков")
+    @Size(min = 4, message = "В имени должно быть не менее 4 знаков")
     private String username;
 
     @Column(name = "email")
@@ -79,10 +79,12 @@ public class User implements UserDetails {
     public String getPassword() {
         return password;
     }
+
     @Override
     public String getUsername() {
         return username;
     }
+
     @Override
     public boolean isAccountNonExpired() {
         return true;

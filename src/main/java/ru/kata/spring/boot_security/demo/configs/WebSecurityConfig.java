@@ -39,10 +39,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll();
     }
 
-@Bean
-public BCryptPasswordEncoder bCryptPasswordEncoder() {
+    @Bean
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
-}
+    }
 
     @Bean
     public DaoAuthenticationProvider daoAuthenticationProvider() {

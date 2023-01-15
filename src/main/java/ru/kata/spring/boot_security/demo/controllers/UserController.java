@@ -12,19 +12,20 @@ import java.security.Principal;
 public class UserController {
     private final UserService userService;
 
-@Autowired
+    @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
     }
+
     @GetMapping("/index")
     public String startController() {
-    return "index";
+        return "index";
     }
 
     @GetMapping("/user")
     public String UserPage(Model model, Principal principal) {
-    model.addAttribute("user", userService.findByUserName(principal.getName()));
-    return "/user";
+        model.addAttribute("user", userService.findByUserName(principal.getName()));
+        return "user";
     }
 
 }

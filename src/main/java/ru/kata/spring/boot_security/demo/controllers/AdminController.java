@@ -33,7 +33,7 @@ public class AdminController {
         return "admin";
     }
 
-    @GetMapping ("/new")
+    @GetMapping("/new")
     public String newUser(Model model) {
         model.addAttribute("user", new User());
         model.addAttribute("roles", roleService.getRoleList());
