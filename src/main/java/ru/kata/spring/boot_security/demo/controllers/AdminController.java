@@ -3,12 +3,15 @@ package ru.kata.spring.boot_security.demo.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.entity.User;
 import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.RoleServiceImpl;
 import ru.kata.spring.boot_security.demo.service.UserService;
 import ru.kata.spring.boot_security.demo.service.UserServiceImpl;
+
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/admin")
@@ -20,6 +23,7 @@ public class AdminController {
     public AdminController(UserServiceImpl userService, RoleServiceImpl roleService) {
         this.userService = userService;
         this.roleService = roleService;
+
     }
 
 
@@ -37,7 +41,9 @@ public class AdminController {
     }
 
     @PostMapping("/new")
-    public String create(@ModelAttribute("user") User user) {
+    public String create(@ModelAttribute("user") @Valid User user, BindingResult bindingResult) {
+        if (bindingResult.hasErrors())
+            return "/new";
         userService.saveUser(user);
         return "redirect:/admin";
     }
@@ -50,7 +56,10 @@ public class AdminController {
     }
 
     @PatchMapping("/edit/{id}")
-    public String update(User user, @PathVariable("id") int id) {
+    public String update(@Valid User user, BindingResult bindingResult,
+                         @PathVariable("id") int id) {
+        if (bindingResult.hasErrors())
+            return "/edit";
         user.setId(id);
         userService.updateUser(user);
         return "redirect:/admin";
